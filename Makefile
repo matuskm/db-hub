@@ -27,9 +27,11 @@ down:
 restart:
 	docker compose restart
 
-## Rebuild the db-hub image (needed after editing Dockerfile.tunnels or entrypoint.py)
+## Rebuild the db-hub image and recreate containers
 build:
 	docker compose build --no-cache db-hub
+	docker compose down
+	docker compose up -d
 
 ## Tail logs for all containers  (Ctrl-C to exit)
 logs:

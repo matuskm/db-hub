@@ -1,7 +1,6 @@
 services:
 
-  # phpMyAdmin
-  phpmyadmin:
+  db-hub-phpmyadmin:
     image: phpmyadmin:latest
     container_name: db-hub-phpmyadmin
     restart: unless-stopped
@@ -12,15 +11,12 @@ services:
       PMA_BLOWFISH_SECRET: ${PMA_BLOWFISH_SECRET}
       UPLOAD_LIMIT: 256M
     volumes:
-      # db-hub generates custom.inc.php here; phpMyAdmin picks it up automatically
       - db-hub-generated:/etc/phpmyadmin/conf.d:ro
     depends_on:
       - db-hub
     networks:
       - db-hub-net
 
-  # db-hub: reads servers.conf, generates phpMyAdmin config, opens SSH tunnels.
-  # To add/change a server: edit config/servers.conf, then: make restart
   db-hub:
     build:
       context: .
@@ -28,14 +24,14 @@ services:
     container_name: db-hub-core
     restart: unless-stopped
     volumes:
-      - ${HOME}/.ssh:/root/.ssh:ro        # SSH keys from your host (read-only)
+      - ${HOME}/.ssh:/root/.ssh:ro
       - ./config/servers.conf:/etc/servers.conf:ro
-      - db-hub-generated:/generated       # writes phpMyAdmin config here
+      - db-hub-generated:/generated
     networks:
       - db-hub-net
 
 volumes:
-  db-hub-generated:    # shared between db-hub (write) and phpmyadmin (read)
+  db-hub-generated:
 
 networks:
   db-hub-net:

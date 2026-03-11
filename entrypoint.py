@@ -88,6 +88,8 @@ def generate_php(config: configparser.ConfigParser) -> None:
             lines.append(f"$cfg['Servers'][$i]['user']            = {php_str(user)};")
         if passwd:
             lines.append(f"$cfg['Servers'][$i]['password']        = {php_str(passwd)};")
+        if s.get("compress", "").strip().lower() == "yes":
+            lines.append(f"$cfg['Servers'][$i]['compress']        = true;")
         lines.append("")
 
     with open(OUT_PHP, "w") as f:
@@ -127,6 +129,7 @@ def start_tunnel(label: str, s: configparser.SectionProxy) -> "subprocess.Popen 
     env = {**os.environ, "AUTOSSH_GATETIME": "0"}
 
     ssh_args = [
+        "-F", "/dev/null",   # ignore ~/.ssh/config (avoids permission errors on mounted .ssh)
         "-o", "ServerAliveInterval=30",
         "-o", "ServerAliveCountMax=3",
         "-o", "StrictHostKeyChecking=no",

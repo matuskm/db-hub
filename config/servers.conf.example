@@ -20,6 +20,7 @@
 # local_port = 3307         ; unique port per SSH server (any free port)
 # db_user    = myuser
 # db_pass    =
+# compress   = yes          ; enable MySQL protocol compression (helps on slow links)
 
 # Direct connection example:
 # [My Direct DB]
