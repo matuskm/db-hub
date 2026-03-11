@@ -1,0 +1,30 @@
+# db-hub servers — each [Section] = one server in the phpMyAdmin dropdown.
+# After any change run: make restart
+#
+# type = ssh    — connect via SSH tunnel
+# type = direct — connect directly (hostname/IP + port)
+#
+# db_pass empty  → phpMyAdmin asks for password at login
+# db_pass filled → auto-login, no prompt
+
+# SSH tunnel example:
+# [My Production DB]
+# type       = ssh
+# ssh_host   = 1.2.3.4
+# ssh_port   = 22
+# ssh_user   = ubuntu
+# ssh_key    = id_rsa       ; file in ~/.ssh/ — OR use ssh_pass below
+# ssh_pass   =
+# db_host    = 127.0.0.1
+# db_port    = 3306
+# local_port = 3307         ; unique port per SSH server (any free port)
+# db_user    = myuser
+# db_pass    =
+
+# Direct connection example:
+# [My Direct DB]
+# type    = direct
+# db_host = 192.168.1.100
+# db_port = 3306
+# db_user = root
+# db_pass =

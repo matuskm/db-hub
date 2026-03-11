@@ -1,0 +1,10 @@
+FROM alpine:latest
+
+# autossh  — keeps SSH tunnels alive with automatic reconnect
+# sshpass  — allows password-based SSH authentication
+# python3  — reads servers.conf and generates phpMyAdmin config at startup
+RUN apk add --no-cache autossh openssh-client sshpass python3
+
+COPY entrypoint.py /entrypoint.py
+
+ENTRYPOINT ["python3", "/entrypoint.py"]
